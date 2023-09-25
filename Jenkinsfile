@@ -6,7 +6,7 @@ node('docker') {
         checkout scm
     }
     stage('Build image') {
-        image = docker.build("ntjp/cert-proxy:${imageVersion}")
+        image = docker.build("ntjp/cert-proxy:${imageVersion}", "./nginx-image")
     }
     stage('Publish image') {
         docker.withRegistry(${params.REGISTRY_URL}, ${params.REGISTRY_CREDS}) {
