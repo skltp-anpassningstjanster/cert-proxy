@@ -9,7 +9,7 @@ node('docker') {
         image = docker.build("ntjp/cert-proxy:${imageVersion}", "./nginx-image")
     }
     stage('Publish image') {
-        docker.withRegistry(${params.REGISTRY_URL}, ${params.REGISTRY_CREDS}) {
+        docker.withRegistry("${params.REGISTRY_URL}", "${params.REGISTRY_CREDS}") {
             image.push()
             image.push('latest')
         }
