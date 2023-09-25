@@ -1,0 +1,19 @@
+server {
+  listen                  ${LISTEN_PORT} ssl;
+  server_name             ${SERVER_NAME};
+  ssl_certificate         ${SSL_CERTIFICATE};
+  ssl_certificate_key     ${SSL_CERTIFICATE_KEY};
+  underscores_in_headers  ${UNDERSCORES_IN_HEADERS};
+
+  location / {
+    proxy_pass                    ${PROXY_PASS};
+
+    proxy_ssl_certificate         ${PROXY_SSL_CERTIFICATE};
+    proxy_ssl_certificate_key     ${PROXY_SSL_CERTIFICATE_KEY};
+    proxy_ssl_protocols           ${PROXY_SSL_PROTOCOLS};
+    proxy_ssl_trusted_certificate ${PROXY_SSL_TRUSTED_CERTIFICATE};
+    
+    proxy_set_header              Host $host;
+  }
+}
+

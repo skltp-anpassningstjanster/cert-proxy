@@ -1,0 +1,19 @@
+version: '3'
+services:
+  nginx:
+    build: ./nginx-image
+    ports:
+      - "8443:443"
+    volumes:
+      - ./cert:/etc/nginx/ssl
+    environment:
+      LISTEN_PORT: "443"
+      SERVER_NAME: "mockserver.example.com localhost"
+      SSL_CERTIFICATE: /etc/nginx/ssl/tls.crt
+      SSL_CERTIFICATE_KEY: /etc/nginx/ssl/tls.key
+      UNDERSCORES_IN_HEADERS: "on"
+      PROXY_PASS: https://mockserver.example.com:443
+      PROXY_SSL_CERTIFICATE: /etc/nginx/ssl/tls.crt
+      PROXY_SSL_CERTIFICATE_KEY: /etc/nginx/ssl/tls.key
+      PROXY_SSL_PROTOCOLS: TLSv1.2
+      PROXY_SSL_TRUSTED_CERTIFICATE: /etc/nginx/ssl/trust.pem
