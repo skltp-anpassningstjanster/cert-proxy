@@ -15,10 +15,33 @@ spec:
     spec:
       imagePullSecrets:
         - name: regcred
+
+      volumes:
+        - name: cert-volume
+          secret:
+            secretName: {{ .Values.certProxy.certificate.secretName }}
+        - name: trust-volume
+          secret:
+            secretName: {{ .Values.certProxy.trust.secretName }}
+
       containers:
         - name: cert-proxy-nginx
           image: "{{ .Values.repository }}{{ .Values.container.image.name }}:{{ .Values.container.image.tag | default $.Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.container.image.pullPolicy }}
+          volumeMounts:
+            {{- with .Values.certProxy.certificate }}
+            - name: cert-volume
+              mountPath: {{ .mountPath }}/{{ .pemFile }}
+              subPath: {{ .pemFile }}
+            - name: cert-volume
+              mountPath: {{ .mountPath }}/{{ .pemKeyFile }}
+              subPath: {{ .pemKeyFile }}
+            {{- end }}
+            {{- with .Values.certProxy.trust }}
+            - name: trust-volume
+              mountPath: {{ .mountPath }}/{{ .pemFile }}
+              subPath: {{ .pemFile }}
+            {{- end }}
           ports:
             - name: http
               containerPort: 80

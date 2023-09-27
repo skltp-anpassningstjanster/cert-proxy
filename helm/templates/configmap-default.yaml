@@ -3,13 +3,15 @@ kind: ConfigMap
 metadata:
   name: cert-proxy-configmap-default
 data:
-  LISTEN_PORT: {{ .Values.certProxy.proxyPort | quote }}
-  SERVER_NAME: {{ .Values.certProxy.targetServer }}
-  SSL_CERTIFICATE: /etc/nginx/ssl/tls.crt
-  SSL_CERTIFICATE_KEY: /etc/nginx/ssl/tls.key
+  {{- with .Values.certProxy }}
+  LISTEN_PORT: {{ .proxyPort | quote }}
+  SERVER_NAME: {{ .targetServer }}
+  SSL_CERTIFICATE: "{{ .certificate.mountPath }}/{{ .certificate.pemFile }}"
+  SSL_CERTIFICATE_KEY: "{{ .certificate.mountPath }}/{{ .certificate.pemKeyFile }}"
   UNDERSCORES_IN_HEADERS: "on"
-  PROXY_PASS: "https://{{ .Values.certProxy.targetServer }}:{{ .Values.certProxy.targetPort }}"
-  PROXY_SSL_CERTIFICATE: /etc/nginx/ssl/tls.crt
-  PROXY_SSL_CERTIFICATE_KEY: /etc/nginx/ssl/tls.key
+  PROXY_PASS: "https://{{ .targetServer }}:{{ .targetPort }}"
+  PROXY_SSL_CERTIFICATE: "{{ .certificate.mountPath }}/{{ .certificate.pemFile }}"
+  PROXY_SSL_CERTIFICATE_KEY: "{{ .certificate.mountPath }}/{{ .certificate.pemKeyFile }}"
   PROXY_SSL_PROTOCOLS: TLSv1.2
-  PROXY_SSL_TRUSTED_CERTIFICATE: /etc/nginx/ssl/trust.pem
+  PROXY_SSL_TRUSTED_CERTIFICATE: "{{ .trust.mountPath }}/{{ .trust.pemFile }}"
+  {{- end }}

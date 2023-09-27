@@ -15,6 +15,15 @@ certProxy:
   proxyPort: 443
   targetServer: example.com
   targetPort: 443
+  certificate:
+    secretName: # Override to supply the certificate
+    mountPath: /etc/nginx/ssl
+    pemFile: tls.crt
+    pemKeyFile: tls.key
+  trust:
+    secretName: # Override to supply the trusted certificate
+    mountPath: /etc/nginx/ssl
+    pemFile: ca.crt
 
 environment:
   variables:
