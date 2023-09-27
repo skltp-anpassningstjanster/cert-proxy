@@ -19,17 +19,17 @@ spec:
       volumes:
         - name: cert-volume
           secret:
-            secretName: {{ .Values.certProxy.certificate.secretName }}
+            secretName: {{ .Values.certificate.secretName }}
         - name: trust-volume
           secret:
-            secretName: {{ .Values.certProxy.trust.secretName }}
+            secretName: {{ .Values.trust.secretName }}
 
       containers:
         - name: cert-proxy-nginx
           image: "{{ .Values.repository }}{{ .Values.container.image.name }}:{{ .Values.container.image.tag | default $.Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.container.image.pullPolicy }}
           volumeMounts:
-            {{- with .Values.certProxy.certificate }}
+            {{- with .Values.certificate }}
             - name: cert-volume
               mountPath: {{ .mountPath }}/{{ .pemFile }}
               subPath: {{ .pemFile }}
@@ -37,7 +37,7 @@ spec:
               mountPath: {{ .mountPath }}/{{ .pemKeyFile }}
               subPath: {{ .pemKeyFile }}
             {{- end }}
-            {{- with .Values.certProxy.trust }}
+            {{- with .Values.trust }}
             - name: trust-volume
               mountPath: {{ .mountPath }}/{{ .pemFile }}
               subPath: {{ .pemFile }}
@@ -48,12 +48,10 @@ spec:
             httpGet:
               path: /
               port: 80
-              initialDelaySeconds: 15
           readinessProbe:
             httpGet:
               path: /
               port: 80
-              initialDelaySeconds: 5
           resources:
             limits:
               memory: 512Mi
