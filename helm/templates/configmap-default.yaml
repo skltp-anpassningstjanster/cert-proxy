@@ -5,7 +5,7 @@ metadata:
 data:
   {{- with .Values.certProxy }}
   LISTEN_PORT: {{ .proxyPort | quote }}
-  SERVER_NAME: {{ .targetServer }}
+  SERVER_NAME: "{{ .targetServer }} {{ .proxyServer }}"
   SSL_CERTIFICATE: "{{ .certificate.mountPath }}/{{ .certificate.pemFile }}"
   SSL_CERTIFICATE_KEY: "{{ .certificate.mountPath }}/{{ .certificate.pemKeyFile }}"
   UNDERSCORES_IN_HEADERS: "on"

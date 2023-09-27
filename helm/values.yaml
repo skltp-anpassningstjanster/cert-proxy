@@ -12,8 +12,9 @@ container:
 
 certProxy:
   proxyIp: 10.111.0.10
+  proxyServer: proxy.example.com
   proxyPort: 443
-  targetServer: example.com
+  targetServer: www.example.com
   targetPort: 443
   certificate:
     secretName: # Override to supply the certificate
