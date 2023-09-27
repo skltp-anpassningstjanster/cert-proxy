@@ -1,0 +1,37 @@
+repository: docker.drift.inera.se/ntjp/
+
+deployment:
+  name: cert-proxy
+  replicaCount: 1
+
+container:
+  image:
+    name: cert-proxy
+    tag: # Override to supply another image tag to run
+    pullPolicy: Always
+
+certProxy:
+  proxyIp: 10.111.0.10
+  proxyServer: proxy.example.com
+  proxyPort: 443
+  targetServer: www.example.com
+  targetPort: 443
+
+certificate:
+  secretName: # Override to supply the certificate
+  mountPath: /etc/nginx/ssl
+  pemFile: tls.crt
+  pemKeyFile: tls.key
+trust:
+  secretName: # Override to supply the trusted certificate
+  mountPath: /etc/nginx/ssl
+  pemFile: ca.crt
+
+environment:
+  variables:
+    _default_config_maps:
+      - cert-proxy-configmap-default
+    config_maps:
+    # Override to supply your own maps.
+    secrets:
+    # Override to supply your own secrets.

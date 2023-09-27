@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cert-proxy-configmap-default
+data:
+  {{- with .Values.certProxy }}
+  LISTEN_PORT: {{ .proxyPort | quote }}
+  SERVER_NAME: "{{ .targetServer }} {{ .proxyServer }}"
+  PROXY_PASS: "https://{{ .targetServer }}:{{ .targetPort }}"
+  {{- end }}
+  {{- with .Values.certificate }}
+  SSL_CERTIFICATE: "{{ .mountPath }}/{{ .pemFile }}"
+  SSL_CERTIFICATE_KEY: "{{ .mountPath }}/{{ .pemKeyFile }}"
+  PROXY_SSL_CERTIFICATE: "{{ .mountPath }}/{{ .pemFile }}"
+  PROXY_SSL_CERTIFICATE_KEY: "{{ .mountPath }}/{{ .pemKeyFile }}"
+  {{- end }}
+  PROXY_SSL_TRUSTED_CERTIFICATE: "{{ .Values.trust.mountPath }}/{{ .Values.trust.pemFile }}"
+  PROXY_SSL_PROTOCOLS: TLSv1.2
+  UNDERSCORES_IN_HEADERS: "on"

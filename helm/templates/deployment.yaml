@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.deployment.name }}
+spec:
+  replicas: {{ .Values.deployment.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ .Values.deployment.name }}
+  template:
+    metadata:
+      annotations:
+      labels:
+        app.kubernetes.io/name: {{ .Values.deployment.name }}
+    spec:
+      imagePullSecrets:
+        - name: regcred
+
+      volumes:
+        - name: cert-volume
+          secret:
+            secretName: {{ .Values.certificate.secretName }}
+        - name: trust-volume
+          secret:
+            secretName: {{ .Values.trust.secretName }}
+
+      containers:
+        - name: cert-proxy-nginx
+          image: "{{ .Values.repository }}{{ .Values.container.image.name }}:{{ .Values.container.image.tag | default $.Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.container.image.pullPolicy }}
+          volumeMounts:
+            {{- with .Values.certificate }}
+            - name: cert-volume
+              mountPath: {{ .mountPath }}/{{ .pemFile }}
+              subPath: {{ .pemFile }}
+            - name: cert-volume
+              mountPath: {{ .mountPath }}/{{ .pemKeyFile }}
+              subPath: {{ .pemKeyFile }}
+            {{- end }}
+            {{- with .Values.trust }}
+            - name: trust-volume
+              mountPath: {{ .mountPath }}/{{ .pemFile }}
+              subPath: {{ .pemFile }}
+            {{- end }}
+          ports:
+            - containerPort: {{ .Values.certProxy.proxyPort }}
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+          resources:
+            limits:
+              memory: 512Mi
+            requests:
+              cpu: 100m
+              memory: 512Mi
+          envFrom:
+            {{- range $.Values.environment.variables._default_config_maps }}
+            - configMapRef:
+                name: {{ . }}
+            {{- end }}
+            {{- range $.Values.environment.variables.config_maps }}
+            - configMapRef:
+                name: {{ . }}
+            {{- end }}
+            {{- range $.Values.environment.variables.secrets }}
+            - secretRef:
+                name: {{ . }}
+            {{- end }}
+

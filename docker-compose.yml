@@ -8,7 +8,7 @@ services:
       - ./cert:/etc/nginx/ssl
     environment:
       LISTEN_PORT: "443"
-      SERVER_NAME: "mockserver.example.com localhost"
+      SERVER_NAME: "example.com localhost"
       SSL_CERTIFICATE: /etc/nginx/ssl/tls.crt
       SSL_CERTIFICATE_KEY: /etc/nginx/ssl/tls.key
       UNDERSCORES_IN_HEADERS: "on"
