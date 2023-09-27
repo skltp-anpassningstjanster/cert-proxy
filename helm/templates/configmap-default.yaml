@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: cert-proxy-configmap-default
 data:
-  LISTEN_PORT: {{ .Values.certProxy.proxyPort }}
+  LISTEN_PORT: {{ .Values.certProxy.proxyPort | quote }}
   SERVER_NAME: {{ .Values.certProxy.targetServer }}
   SSL_CERTIFICATE: /etc/nginx/ssl/tls.crt
   SSL_CERTIFICATE_KEY: /etc/nginx/ssl/tls.key
