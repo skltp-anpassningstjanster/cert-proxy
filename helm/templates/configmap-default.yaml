@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cert-proxy-configmap-default
+data:
+  LISTEN_PORT: {{ .Values.certProxy.proxyPort }}
+  SERVER_NAME: {{ .Values.certProxy.targetServer }}
+  SSL_CERTIFICATE: /etc/nginx/ssl/tls.crt
+  SSL_CERTIFICATE_KEY: /etc/nginx/ssl/tls.key
+  UNDERSCORES_IN_HEADERS: "on"
+  PROXY_PASS: "https://{{ .Values.certProxy.targetServer }}:{{ .Values.certProxy.targetPort }}"
+  PROXY_SSL_CERTIFICATE: /etc/nginx/ssl/tls.crt
+  PROXY_SSL_CERTIFICATE_KEY: /etc/nginx/ssl/tls.key
+  PROXY_SSL_PROTOCOLS: TLSv1.2
+  PROXY_SSL_TRUSTED_CERTIFICATE: /etc/nginx/ssl/trust.pem

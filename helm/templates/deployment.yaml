@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.deployment.name }}
+spec:
+  replicas: {{ .Values.deployment.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ .Values.deployment.name }}
+  template:
+    metadata:
+      annotations:
+      labels:
+        app.kubernetes.io/name: {{ .Values.deployment.name }}
+    spec:
+      imagePullSecrets:
+        - name: regcred
+      containers:
+        - name: cert-proxy-nginx
+          image: "{{ .Values.repository }}{{ .Values.container.image.name }}:{{ .Values.container.image.tag | default $.Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.container.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+#          livenessProbe:
+#            httpGet:
+#              path: /
+#              port: http
+#          readinessProbe:
+#            httpGet:
+#              path: /
+#              port: http
+          resources:
+            limits:
+              memory: 512Mi
+            requests:
+              cpu: 100m
+              memory: 512Mi
+          envFrom:
+            {{- range $.Values.environment.variables._default_config_maps }}
+            - configMapRef:
+                name: {{ . }}
+            {{- end }}
+            {{- range $.Values.environment.variables.config_maps }}
+            - configMapRef:
+                name: {{ . }}
+            {{- end }}
+            {{- range $.Values.environment.variables.secrets }}
+            - secretRef:
+                name: {{ . }}
+            {{- end }}
+
