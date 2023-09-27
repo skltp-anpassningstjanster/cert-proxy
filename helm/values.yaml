@@ -11,7 +11,7 @@ container:
     pullPolicy: Always
 
 certProxy:
-  proxyIp: ""
+  proxyIp: 10.111.0.10
   proxyPort: 443
   targetServer: target.example.com
   targetPort: 443
