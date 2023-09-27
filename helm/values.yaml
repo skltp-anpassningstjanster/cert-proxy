@@ -13,7 +13,7 @@ container:
 certProxy:
   proxyIp: 10.111.0.10
   proxyPort: 443
-  targetServer: target.example.com
+  targetServer: example.com
   targetPort: 443
 
 environment:
