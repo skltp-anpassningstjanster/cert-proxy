@@ -48,10 +48,12 @@ spec:
             httpGet:
               path: /
               port: 80
+              initialDelaySeconds: 15
           readinessProbe:
             httpGet:
               path: /
               port: 80
+              initialDelaySeconds: 5
           resources:
             limits:
               memory: 512Mi
