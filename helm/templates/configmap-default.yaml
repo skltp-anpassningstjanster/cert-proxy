@@ -8,9 +8,11 @@ data:
   SERVER_NAME: "{{ .targetServer }} {{ .proxyServer }}"
   PROXY_PASS: "https://{{ .targetServer }}:{{ .targetPort }}"
   {{- end }}
-  {{- with .Values.certificate }}
+  {{- with .Values.serverCertificate }}
   SSL_CERTIFICATE: "{{ .mountPath }}/{{ .pemFile }}"
   SSL_CERTIFICATE_KEY: "{{ .mountPath }}/{{ .pemKeyFile }}"
+  { { - end } }
+  { { - with .Values.clientCertificate } }
   PROXY_SSL_CERTIFICATE: "{{ .mountPath }}/{{ .pemFile }}"
   PROXY_SSL_CERTIFICATE_KEY: "{{ .mountPath }}/{{ .pemKeyFile }}"
   {{- end }}

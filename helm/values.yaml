@@ -17,14 +17,19 @@ certProxy:
   targetServer: www.example.com
   targetPort: 443
 
-certificate:
-  secretName: # Override to supply the certificate
-  mountPath: /etc/nginx/ssl
+serverCertificate:
+  secretName: # Override to supply the certificate for incoming traffic
+  mountPath: /etc/nginx/ssl-in
+  pemFile: tls.crt
+  pemKeyFile: tls.key
+clientCertificate:
+  secretName: # Override to supply the certificate for outgoing traffic
+  mountPath: /etc/nginx/ssl-out
   pemFile: tls.crt
   pemKeyFile: tls.key
 trust:
   secretName: # Override to supply the trusted certificate
-  mountPath: /etc/nginx/ssl
+  mountPath: /etc/nginx/ssl-out
   pemFile: ca.crt
 
 environment:

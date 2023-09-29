@@ -17,9 +17,12 @@ spec:
         - name: regcred
 
       volumes:
-        - name: cert-volume
+        - name: server-cert-volume
           secret:
-            secretName: {{ .Values.certificate.secretName }}
+            secretName: {{ .Values.serverCertificate.secretName }}
+        - name: client-cert-volume
+          secret:
+            secretName: {{ .Values.clientCertificate.secretName }}
         - name: trust-volume
           secret:
             secretName: {{ .Values.trust.secretName }}
@@ -29,11 +32,19 @@ spec:
           image: "{{ .Values.repository }}{{ .Values.container.image.name }}:{{ .Values.container.image.tag | default $.Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.container.image.pullPolicy }}
           volumeMounts:
-            {{- with .Values.certificate }}
-            - name: cert-volume
+            {{- with .Values.serverCertificate }}
+            - name: server-cert-volume
               mountPath: {{ .mountPath }}/{{ .pemFile }}
               subPath: {{ .pemFile }}
-            - name: cert-volume
+            - name: server-cert-volume
+              mountPath: {{ .mountPath }}/{{ .pemKeyFile }}
+              subPath: {{ .pemKeyFile }}
+            {{- end }}
+            {{- with .Values.clientCertificate }}
+            - name: client-cert-volume
+              mountPath: {{ .mountPath }}/{{ .pemFile }}
+              subPath: {{ .pemFile }}
+            - name: client-cert-volume
               mountPath: {{ .mountPath }}/{{ .pemKeyFile }}
               subPath: {{ .pemKeyFile }}
             {{- end }}
