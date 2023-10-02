@@ -1,3 +1,4 @@
 FROM nginx:1.25.2
 
-COPY proxy.conf.template /etc/nginx/templates/
+COPY nginx.conf /etc/nginx/nginx.conf
+COPY *.template /etc/nginx/templates/

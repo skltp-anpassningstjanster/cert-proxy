@@ -4,9 +4,11 @@ services:
     build: ./nginx-image
     ports:
       - "8443:443"
+      - "8099:8099"
     volumes:
       - ./cert:/etc/nginx/ssl
     environment:
+      HEALTH_PORT: "8099"
       LISTEN_PORT: "443"
       SERVER_NAME: "example.com localhost"
       SSL_CERTIFICATE: /etc/nginx/ssl/tls.crt

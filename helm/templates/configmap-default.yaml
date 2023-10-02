@@ -7,6 +7,7 @@ data:
   LISTEN_PORT: {{ .proxyPort | quote }}
   SERVER_NAME: "{{ .targetServer }} {{ .proxyServer }}"
   PROXY_PASS: "https://{{ .targetServer }}:{{ .targetPort }}"
+  HEALTH_PORT: {{ .healthPort | quote }}
   {{- end }}
   {{- with .Values.serverCertificate }}
   SSL_CERTIFICATE: "{{ .mountPath }}/{{ .pemFile }}"

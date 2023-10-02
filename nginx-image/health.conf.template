@@ -1,0 +1,18 @@
+server {
+    listen       ${HEALTH_PORT};
+    server_name  localhost;
+
+    # Use default welcome page as health probe but without logging
+    access_log  off;
+
+    location / {
+        root   /usr/share/nginx/html;
+        index  index.html index.htm;
+    }
+
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   /usr/share/nginx/html;
+    }
+}
+
