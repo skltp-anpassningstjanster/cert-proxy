@@ -11,6 +11,7 @@ spec:
     metadata:
       annotations:
       labels:
+        app: cert-proxy
         app.kubernetes.io/name: {{ .Values.deployment.name }}
     spec:
       imagePullSecrets:
