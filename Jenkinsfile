@@ -1,5 +1,5 @@
 def image
-def imageVersion = '1.0.0-RC1'
+def imageVersion = '1.0.0-RC2'
 
 node('docker') {
     stage('Checkout') {
