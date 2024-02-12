@@ -3,6 +3,12 @@ repository: docker.drift.inera.se/ntjp/
 deployment:
   name: cert-proxy
   replicaCount: 1
+  resources:
+    limits:
+      memory: 256Mi
+    requests:
+      cpu: 50m
+      memory: 256Mi
 
 container:
   image:
