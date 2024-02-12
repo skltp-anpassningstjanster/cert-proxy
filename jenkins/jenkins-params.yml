@@ -1,0 +1,1 @@
+skip-stages: 'SonarScanner,Results'
