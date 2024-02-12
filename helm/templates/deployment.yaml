@@ -65,11 +65,7 @@ spec:
               path: /
               port: {{ .Values.certProxy.healthPort }}
           resources:
-            limits:
-              memory: 512Mi
-            requests:
-              cpu: 100m
-              memory: 512Mi
+            {{- toYaml .Values.deployment.resources | nindent 12 }}
           envFrom:
             {{- range $.Values.environment.variables._default_config_maps }}
             - configMapRef:
