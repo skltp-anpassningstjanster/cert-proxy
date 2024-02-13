@@ -1,1 +1,2 @@
 skip-stages: 'SonarScanner,Results'
+archive-artifacts: 'helm/Chart.yaml'
