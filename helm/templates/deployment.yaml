@@ -64,6 +64,15 @@ spec:
             httpGet:
               path: /
               port: {{ .Values.certProxy.healthPort }}
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            runAsNonRoot: true
+            runAsUser: 101 # nginx user
+            seccompProfile:
+              type: RuntimeDefault
           resources:
             {{- toYaml .Values.deployment.resources | nindent 12 }}
           envFrom:
