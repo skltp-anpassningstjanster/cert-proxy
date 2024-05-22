@@ -56,14 +56,7 @@ spec:
             {{- end }}
           ports:
             - containerPort: {{ .Values.certProxy.proxyPort }}
-          livenessProbe:
-            httpGet:
-              path: /
-              port: {{ .Values.certProxy.healthPort }}
-          readinessProbe:
-            httpGet:
-              path: /
-              port: {{ .Values.certProxy.healthPort }}
+          {{- .Values.probes | toYaml | nindent 10 }}
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:

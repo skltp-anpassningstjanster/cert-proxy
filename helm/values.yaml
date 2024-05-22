@@ -22,7 +22,6 @@ certProxy:
   proxyPort: 443
   targetServer: www.example.com
   targetPort: 443
-  healthPort: 80
 
 serverCertificate:
   secretName: # Override to supply the certificate for incoming traffic
@@ -47,3 +46,24 @@ environment:
     # Override to supply your own maps.
     secrets:
     # Override to supply your own secrets.
+
+probes:
+  livenessProbe:
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    successThreshold: 1
+    timeoutSeconds: 3
+    failureThreshold: 10
+    httpGet:
+      path: /
+      port: 80
+  startupProbe:
+    httpGet:
+      path: /
+      port: 80
+      scheme: HTTP
+    initialDelaySeconds: 10
+    failureThreshold: 20
+    periodSeconds: 2  # 10s + 20 * 2s = 50 seconds max startup time
+    successThreshold: 1
+    timeoutSeconds: 1
