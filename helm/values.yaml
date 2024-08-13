@@ -22,6 +22,7 @@ certProxy:
   proxyPort: 443
   targetServer: www.example.com
   targetPort: 443
+  healthPort: 80
 
 serverCertificate:
   secretName: # Override to supply the certificate for incoming traffic
