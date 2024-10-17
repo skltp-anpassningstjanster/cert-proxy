@@ -3,7 +3,7 @@
 
     <groupId>se.skltp.adapterservices</groupId>
     <artifactId>cert-proxy</artifactId>
-    <version>1.0.2-RC2-SNAPSHOT</version>
+    <version>1.0.2</version>
     <packaging>pom</packaging>
 
     <properties />
@@ -13,7 +13,7 @@
         <url>https://github.com/skltp-anpassningstjanster/cert-proxy</url>
         <connection>https://github.com/skltp-anpassningstjanster/cert-proxy.git</connection>
         <developerConnection>scm:git:https://github.com/skltp-anpassningstjanster/cert-proxy.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>v1.0.2</tag>
     </scm>
     <distributionManagement>
         <repository>
