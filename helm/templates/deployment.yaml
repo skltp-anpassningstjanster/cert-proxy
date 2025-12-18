@@ -94,7 +94,7 @@ spec:
             - --web.telemetry-path=/actuator/prometheus
           ports:
             - containerPort: 8089
-              name: metrics
+              name: actuators
               protocol: TCP
           volumeMounts:
             - name: nginx-prometheus-exporter-tmp
