@@ -13,6 +13,7 @@ spec:
       labels:
         app: cert-proxy
         app.kubernetes.io/name: {{ .Values.deployment.name }}
+        monitoring: prometheus
     spec:
       imagePullSecrets:
         - name: regcred
@@ -27,6 +28,8 @@ spec:
         - name: trust-volume
           secret:
             secretName: {{ .Values.trust.secretName }}
+        - name: nginx-prometheus-exporter-tmp
+          emptyDir: {}
 
       containers:
         - name: cert-proxy-nginx
@@ -81,4 +84,30 @@ spec:
             - secretRef:
                 name: {{ . }}
             {{- end }}
+
+        # Sidecar container that exports NGINX metrics for Prometheus monitoring
+        - name: nginx-prometheus-exporter
+          image: "{{ .Values.nginxPrometheusExporter.image.repository }}:{{ .Values.nginxPrometheusExporter.image.tag }}"
+          args:
+            - --nginx.scrape-uri=http://127.0.0.1:9113/stub_status
+            - --web.listen-address=:8089
+            - --web.telemetry-path=/actuator/prometheus
+          ports:
+            - containerPort: 8089
+              name: metrics
+              protocol: TCP
+          volumeMounts:
+            - name: nginx-prometheus-exporter-tmp
+              mountPath: /tmp
+          resources:
+            {{- toYaml .Values.nginxPrometheusExporter.resources | nindent 12 }}
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            runAsNonRoot: true
+            runAsUser: 65534 # nobody user
+            seccompProfile:
+              type: RuntimeDefault
 

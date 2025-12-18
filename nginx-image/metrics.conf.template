@@ -1,0 +1,13 @@
+server {
+    listen       127.0.0.1:9113;
+    server_name  localhost;
+
+    # Disable logging for internal metrics endpoint
+    access_log  off;
+
+    # Internal stub_status for prometheus exporter sidecar
+    location /stub_status {
+        stub_status;
+    }
+}
+

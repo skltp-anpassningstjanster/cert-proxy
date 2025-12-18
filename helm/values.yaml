@@ -68,3 +68,17 @@ probes:
     periodSeconds: 2  # 10s + 20 * 2s = 50 seconds max startup time
     successThreshold: 1
     timeoutSeconds: 1
+
+nginxPrometheusExporter:
+  image:
+    repository: nginx/nginx-prometheus-exporter
+    tag: 1.5.1
+  resources:
+    requests:
+      cpu: 10m
+      memory: 16Mi
+      ephemeral-storage: "1Mi"
+    limits:
+      cpu: 50m
+      memory: 32Mi
+      ephemeral-storage: "10Mi"
