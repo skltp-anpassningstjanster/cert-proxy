@@ -1,0 +1,88 @@
+{
+  "$schema": "http://cyclonedx.org/schema/bom-1.6.schema.json",
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.6",
+  "serialNumber": "urn:uuid:91b473e8-9a23-4d41-9d69-c1720ee1d7e1",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-12-18T12:46:26+00:00",
+    "tools": {
+      "components": [
+        {
+          "type": "application",
+          "manufacturer": {
+            "name": "Aqua Security Software Ltd."
+          },
+          "group": "aquasecurity",
+          "name": "trivy",
+          "version": "0.67.2"
+        }
+      ]
+    },
+    "component": {
+      "bom-ref": "cdb67201-504e-48ce-b058-ea8bdbcc0967",
+      "type": "application",
+      "name": ".",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:SchemaVersion",
+          "value": "2"
+        }
+      ]
+    }
+  },
+  "components": [
+    {
+      "bom-ref": "1d3c8f15-2be4-43fe-ab93-de2ce8016604",
+      "type": "application",
+      "name": "pom.xml",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:Class",
+          "value": "lang-pkgs"
+        },
+        {
+          "name": "aquasecurity:trivy:Type",
+          "value": "pom"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:maven/se.skltp.adapterservices/cert-proxy@1.1.0",
+      "type": "library",
+      "group": "se.skltp.adapterservices",
+      "name": "cert-proxy",
+      "version": "1.1.0",
+      "purl": "pkg:maven/se.skltp.adapterservices/cert-proxy@1.1.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "se.skltp.adapterservices:cert-proxy:1.1.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "pom"
+        }
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "1d3c8f15-2be4-43fe-ab93-de2ce8016604",
+      "dependsOn": [
+        "pkg:maven/se.skltp.adapterservices/cert-proxy@1.1.0"
+      ]
+    },
+    {
+      "ref": "cdb67201-504e-48ce-b058-ea8bdbcc0967",
+      "dependsOn": [
+        "1d3c8f15-2be4-43fe-ab93-de2ce8016604"
+      ]
+    },
+    {
+      "ref": "pkg:maven/se.skltp.adapterservices/cert-proxy@1.1.0",
+      "dependsOn": []
+    }
+  ],
+  "vulnerabilities": []
+}
